@@ -42,19 +42,15 @@ function getSavedColumns() {
 // Set localStorage Arrays
 function updateSavedColumns() {
   listArrays = [backlogListArray, progressListArray, completeListArray, onHoldListArray];
-  console.log('listArrays: ', listArrays);
   const arrayNames = ['backlog', 'progress', 'complete', 'onHold'];
   arrayNames.forEach((arrayName, index) => {
-    console.log(JSON.stringify(listArrays[index]));
     localStorage.setItem(`${arrayName}Items`, JSON.stringify(listArrays[index]));
   });
 }
 
 // Filter Arrays to remove empty items
 function filterArray(array) {
-  console.log(array);
   const filteredArray = array.filter(item => item !== null);
-  console.log(filteredArray);
   return filteredArray;
 }
 
@@ -118,7 +114,6 @@ function updateItem(id, column) {
     } else {
       selectedArray[id] = selectedColumnEl[id].textContent;
     }
-    console.log(selectedArray);
     updateDOM();
   }
 }
@@ -141,7 +136,6 @@ function showInputBox(column) {
 
 // Hide Item Input Box
 function hideInputBox(column) {
-  console.log(column);
   addBtns[column].style.visibility = 'visible';
   saveItemBtns[column].style.display = 'none';
   addItemContainers[column].style.display = 'none';
@@ -150,22 +144,10 @@ function hideInputBox(column) {
 
 // Allows arrays to reflect Drag and Drop items
 function rebuildArrays() {
-  backlogListArray = [];
-  for (let i = 0; i < backlogList.children.length; i++) {
-    backlogListArray.push(backlogList.children[i].textContent);
-  }
-  progressListArray = [];
-  for (let i = 0; i < progressList.children.length; i++) {
-    progressListArray.push(progressList.children[i].textContent);
-  }
-  completeListArray = [];
-  for (let i = 0; i < completeList.children.length; i++) {
-    completeListArray.push(completeList.children[i].textContent);
-  }
-  onHoldListArray = [];
-  for (let i = 0; i < onHoldList.children.length; i++) {
-    onHoldListArray.push(onHoldList.children[i].textContent);
-  }
+  backlogListArray = Array.from(backlogList.children).map(i => i.textContent);
+  progressListArray = Array.from(progressList.children).map(i => i.textContent);
+  completeListArray = Array.from(completeList.children).map(i => i.textContent);
+  onHoldListArray = Array.from(onHoldList.children).map(i => i.textContent);
   updateDOM();
 }
 
